@@ -1,29 +1,21 @@
-=begin
-   Requires:
-    variables, data types, and numerical operators
-    basic input/output
-    logic (if statements, switch statements)
-    loops (for, while, do-while)
-    arrays
+# frozen_string_literal: true
 
-    Make a two player tic tac toe game.
+#    Requires:
+#     variables, data types, and numerical operators
+#     basic input/output
+#     logic (if statements, switch statements)
+#     loops (for, while, do-while)
+#     arrays
+#
+#     Make a two player tic tac toe game.
+#
+#     ★ Modify the program so that it will announce when a player has won the game (and which player won, x or o)
+#
+#     ★★ Modify the program so that it is a one player game against the computer (with the computer making its moves randomly)
+#
+#     ★★★★ Modify the program so that anytime the player is about to win (aka, they have 2 of 3 x's in a row, the computer will block w/ an o)
 
-    ★ Modify the program so that it will announce when a player has won the game (and which player won, x or o)
+require_relative 'Game.rb'
 
-    ★★ Modify the program so that it is a one player game against the computer (with the computer making its moves randomly)
-
-    ★★★★ Modify the program so that anytime the player is about to win (aka, they have 2 of 3 x's in a row, the computer will block w/ an o)
-=end
-
-require_relative "Game.rb"
-
-game = Game.new()
+game = Game.new
 game.start
-
-# board = Board.new
-
-
-# p board.win_row?(1)
-# p board.win_col?(1)
-# board.place_symbol([1,1], 9)
-# board.render
