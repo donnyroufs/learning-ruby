@@ -22,13 +22,9 @@ class Game
 
       loop do
         print "#{current_player.name}'s move: "
-        # input = if current_player.class == 'CPU'
-        #           current_player.get_input(board)
-        #         else
-
-        #           current_player.get_input
-        #         end
-        input = current_player.get_input(board) # delete
+        input = current_player.get_input(board)
+        puts "inputs was #{input}"
+        board.render
         break if valid_move?(input)
       end
 
