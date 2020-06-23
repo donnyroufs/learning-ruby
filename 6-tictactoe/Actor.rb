@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+require 'pry'
 
 class Actor
   attr_accessor :name, :symbol, :wins, :move_count
@@ -29,17 +30,14 @@ class CPU < Actor
   end
 
   def get_input(board)
-    # rand(1..9
-    #minimax(board)
     res = testmax(board, 0, true)
-    # p "result: #{res}" 
     @choice
   end
 
-  def score(board, isMaximizingPlayer, depth = 0)
-    if board.win?(get_player_symbol(isMaximizingPlayer))
+  def score(board, depth = 0)
+    if board.win?("O")
       10 - depth
-    elsif board.win?(get_player_symbol(!isMaximizingPlayer))
+    elsif board.win?("X")
       depth - 10
     else 
       0
@@ -48,7 +46,8 @@ class CPU < Actor
 
 
   def testmax(board, depth = 0, isMaximizingPlayer = true)
-    return score(board, isMaximizingPlayer, depth) if score(board, isMaximizingPlayer, depth) != 0
+    return score(board, depth) if score(board, depth) != 0
+
     scores = []
     moves = []
 
@@ -61,21 +60,22 @@ class CPU < Actor
     available_spots.each do |spot|
       board_copy = clone_board(board)
       board_copy.place_symbol(spot, get_player_symbol(isMaximizingPlayer))
-      score = testmax(clone_board(board_copy), depth + 1, !isMaximizingPlayer)
-      next if score == nil
-      scores << score
-      moves << spot
+
+      scores.push(testmax(board_copy, depth + 1, !isMaximizingPlayer))
+      moves.push(spot)
     end
 
-    if isMaximizingPlayer
-      max_idx = scores.each_with_index.max[1]
-      @choice = moves[max_idx]
-      return scores[max_idx]
-    else
-      min_idx = scores.each_with_index.min[1]
-      @choice = moves[min_idx]
-      return scores[min_idx]
-    end
+    get_best_move(isMaximizingPlayer, moves, scores)
+  end
+
+  def get_best_move(isMaximizingPlayer, moves, scores)
+    index = get_index(isMaximizingPlayer, scores)
+    @choice = moves[index]
+    return scores[index]
+  end
+
+  def get_index(isMaximizingPlayer, scores)
+    isMaximizingPlayer ? scores.each_with_index.max[1] : scores.each_with_index.min[1]
   end
 
   def get_player_symbol(isMaximizingPlayer)
